@@ -5,18 +5,12 @@ from firebase_admin import credentials, firestore
 import json
 
 
-# If the secrets value is already a dictionary-like object, use it directly
 firebase_secrets = st.secrets["firebase_key"]
-if isinstance(firebase_secrets, dict):
-    firebase_secrets = firebase_secrets
-else:
-    # Parse the JSON string into a dictionary
-    firebase_secrets = json.loads(firebase_secrets)
 
 # Initialize Firebase only if not already initialized
 if not firebase_admin._apps:
-    firebase_admin.initialize_app(options=firebase_secrets)
-
+    cred = credentials.Certificate(firebase_secrets)  # Pass it directly to Certificate
+    firebase_admin.initialize_app(cred)
     
 # Firestore Client
 db = firestore.client()
