@@ -6,8 +6,8 @@ import json
 
 
 if not firebase_admin._apps:
-    firebase_secrets = st.secrets["firebase_key"]  # No need to load JSON, it's already parsed
-    cred = credentials.Certificate(firebase_secrets)  # Use the dictionary directly
+    firebase_secrets = st.secrets["firebase_key"]  # This should be a dict
+    cred = credentials.Certificate(firebase_secrets)  # Pass it directly as a dictionary
     firebase_admin.initialize_app(cred)
 
 # Firestore Client
