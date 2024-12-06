@@ -5,11 +5,14 @@ from firebase_admin import credentials, firestore
 import json
 
 
-if not firebase_admin._apps:
-    firebase_secrets = st.secrets["firebase_key"]  # This should be a dict
-    cred = credentials.Certificate(firebase_secrets)  # Pass it directly as a dictionary
-    firebase_admin.initialize_app(cred)
+# Parse the JSON string into a dictionary
+firebase_secrets = json.loads(st.secrets["firebase_key"])
 
+# Use the parsed dictionary to initialize Firebase
+if not firebase_admin._apps:
+    cred = credentials.Certificate(firebase_secrets)  # Use the dictionary directly
+    firebase_admin.initialize_app(cred)
+    
 # Firestore Client
 db = firestore.client()
 
