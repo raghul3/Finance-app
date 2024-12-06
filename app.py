@@ -8,10 +8,13 @@ import json
 # Parse the JSON string into a dictionary
 firebase_secrets = json.loads(st.secrets["firebase_key"])
 
-# Use the parsed dictionary to initialize Firebase
+# Directly use the firebase_key if it's already a dictionary-like object
 if not firebase_admin._apps:
-    cred = credentials.Certificate(firebase_secrets)  # Use the dictionary directly
+    cred = credentials.Certificate(st.secrets["firebase_key"])  # Use the AttrDict directly
     firebase_admin.initialize_app(cred)
+
+print(st.secrets["firebase_key"])
+
     
 # Firestore Client
 db = firestore.client()
